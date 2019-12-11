@@ -1,0 +1,64 @@
+/******************************************************************************
+   One compartment pyramidal cell
+  
+   Based on: 
+   Golomb D, Amitai Y (1997) Propagating neuronal discharges in
+   neocortical slices: computational and experimental study. J Neurophys
+   78: 1199-1211.
+ 
+   Arthur Houweling
+   
+   Added ICa_L, IAHP(Ca) and cadynamics
+   replaced KS by iM
+   Klaus Stiefel
+******************************************************************************/
+
+
+create soma
+access soma
+
+cm= 1 
+diam= L= sqrt( 25000/ PI)   
+
+insert pas
+insert Na
+insert NaP
+insert Kdr
+insert KA
+//insert Ks
+insert iM
+insert H
+insert iL
+insert iAHP2
+insert cacum
+
+
+e_pas= -60		
+ena=    55
+ek=    -90
+e_H=   -40
+e_ca = 	55
+
+g_pas=        2e-5			
+g_Na= 	0.032
+g_NaP=	      7e-5
+g_Kdr=  0.003
+g_KA=   0.0007
+// g_Ks=   0.002			// Golomb's value 0.001
+gkbar_iM = 0.0005
+g_H=	2e-5
+pcabar_iL=1e-5
+gkbar_iAHP2 =0.0001
+
+depth_cacum = 1
+tau_cacum = 35
+
+//---------------------------------------------------------------------
+// Other parameters
+//---------------------------------------------------------------------
+
+v_init= -70.93
+dt= 0.025
+celsius= 36
+steps_per_ms= 5
+

@@ -1,0 +1,72 @@
+// Fig 4A
+
+spikesin[0].weight = 0
+spikesin[1].weight = 0.05
+spikesin[2].weight = 0
+spikesin[3].weight = 0
+/*
+// control	
+forsec dendritic {
+		g_pas 	= 2e-5
+		e_pas 	= -60
+		gbar_km	=  2
+		gbar_kca = 3
+		}
+makeprc()
+
+// low carbachol
+forsec dendritic {
+		g_pas 	= 1.8e-5
+		e_pas 	= -58
+		gbar_km	=  2*0.9
+		gbar_kca = 4*0.25
+		}
+makeprc()
+
+// high carbachol
+forsec dendritic {
+		g_pas 	= 1.8e-5
+		e_pas 	= -58
+		gbar_km	=  2*0.05
+		gbar_kca = 4*0
+		}
+makeprc()
+
+*/
+
+// gm	
+forsec dendritic {
+		g_pas 	= 2e-5
+		e_pas 	= -60
+		gbar_km	=  2*0.05
+		gbar_kca = 4
+		}
+makeprc()
+
+// gahp
+forsec dendritic {
+		g_pas 	= 2e-5
+		e_pas 	= -60
+		gbar_km	=  2
+		gbar_kca = 0
+		}
+makeprc()
+
+// gpas	
+forsec dendritic {
+		g_pas 	= 1.8e-5
+		e_pas 	= -60
+		gbar_km	=  2
+		gbar_kca = 4
+		}
+makeprc()
+
+// epas
+forsec dendritic {
+		g_pas 	= 2e-5
+		e_pas 	= -58
+		gbar_km	=  2
+		gbar_kca = 4
+		}
+makeprc()
+

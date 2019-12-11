@@ -1,0 +1,43 @@
+// Single compartment neuron in NEURON
+// K.Stiefel, Salk, 2004
+
+// NEURON standard files, soma
+
+load_file("stdgui.hoc")
+load_file("nrngui.hoc")
+
+nrnmainmenu()
+
+load_file("PY-golomb_simple.hoc")
+
+objref spikesin, input, spikesout, nix
+objref spikesouttimes, synapse, Iinject
+
+soma synapse = new ExpSyn(.5)
+synapse.tau=0.05
+
+soma Iinject = new IClamp(.5)
+Iinject.dur = 10000
+Iinject.amp = 0.1
+
+input = new NetStim(.5)
+input.number=1
+input.start=50
+
+soma spikesin = new NetCon(input, synapse, 0.5, 0, .1 ) // Input spike train
+
+soma spikesout = new NetCon(&v(.5), nix, 0, 0, 0)// Output spike train
+spikesouttimes = new Vector()
+spikesout.record(spikesouttimes)
+
+load_file("single1.ses")// display
+
+// comment out from here on
+// to get the theta neuron only 
+// without PRC determination
+// -----------------------------
+
+load_file("makeIF.hoc") // current vs firing rate curve
+load_file("PRC.hoc") // determine phase reset curves
+// load_file("PRCsweep.hoc") // Sweep over parameters and determine PRC 
+// load_file("demo.hoc") // Demonstration

@@ -1,0 +1,43 @@
+// Fig 5A
+
+	synnr = 3
+	for aa= 0, 3 {spikesin[aa].weight = 0}
+	if (synnr == 0) {spikesin[synnr].weight = 0.01 }  else { spikesin[synnr].weight = 0.05 }
+
+objref ii
+soma ii = new IClamp(.5)
+ii.del=0
+ii.amp=0.15
+ii.dur=2000
+	
+// control	
+forsec dendritic {
+		g_pas 	= 2e-5
+		e_pas 	= -60
+		gbar_km	=  2
+		gbar_kca = 3
+		}
+makeprc()
+
+// low carbachol
+forsec dendritic {
+		g_pas 	= 1.8e-5
+		e_pas 	= -58
+		gbar_km	=  2*0.9
+		gbar_kca = 3*0.25
+		}
+ii.amp =0.11
+makeprc()
+
+// high carbachol
+forsec dendritic {
+		g_pas 	= 1.8e-5
+		e_pas 	= -58
+		gbar_km	=  2*0.05
+		gbar_kca = 3*0
+		}
+forall {gbar_na = gbar_na*0.55}
+ii.amp=0.03
+makeprc()
+
+

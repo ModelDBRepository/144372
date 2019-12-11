@@ -1,0 +1,35 @@
+// Fig 5B
+
+objref cchhere
+cchhere = new SectionList()
+
+// all sections where change should occur:
+
+access a2_121121
+cchhere.append()
+access a2_1211212
+cchhere.append()
+
+access soma
+
+for synnr = 1, 3 {
+	for aa= 0, 3 {spikesin[aa].weight = 0}
+	if (synnr == 0) { spikesin[synnr].weight = 0.01 }  else { spikesin[synnr].weight = 0.05 }
+		
+	// control	
+	forsec dendritic {
+		g_pas 	= 2e-5
+		e_pas 	= -32
+		gbar_km	=  2
+		}
+	makeprc()
+		
+	// carbachol
+	forsec cchhere {
+		g_pas 	= 1.8e-5
+		e_pas 	= -30
+		gbar_km	=  .1
+		}
+	makeprc()
+}
+

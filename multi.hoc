@@ -1,0 +1,65 @@
+// Single compartment neuron in NEURON
+// K.Stiefel, Salk, 2004
+
+// NEURON standard files, soma
+
+load_file("stdgui.hoc")
+load_file("nrngui.hoc")
+
+nrnmainmenu()
+
+load_file("PyMainen.hoc")
+
+// changes in Mainen's parameters
+
+forsec dendritic {
+		gbar_km	= 2
+		g_pas	= 2e-5
+		e_pas = -60		
+		gbar_ca= .1				
+		gbar_na = 20
+		gbar_kca = 3	
+//		nseg = int(L/8)+1
+		}
+	
+soma { 		gkv = 100 }
+
+objref spikesin[4], input, spikesout, nix
+objref spikesouttimes, synapse[4], Iinject
+
+soma synapse[0] = new ExpSyn(.5)
+a2_1211 synapse[1] = new ExpSyn(.5)
+// a2_121121 synapse[2] = new ExpSyn(.5)
+// a2_1211212
+a2_12112122 synapse[2] = new ExpSyn(.5)
+a3_12122221 synapse[3] = new ExpSyn(.5)
+for y = 0, 3 { synapse[y].tau=0.01 }
+
+input = new NetStim(.5)
+input.number=1
+input.start=10000
+
+for w = 0, 3 {spikesin[w] = new NetCon(input, synapse[w], 0.5, 0, 0 ) }
+spikesin[0].weight = 0
+spikesin[1].weight = 0
+spikesin[2].weight = 0
+spikesin[3].weight = 0
+
+soma spikesout = new NetCon(&v(.5), nix, 0, 0, 0)// Output spike train
+spikesouttimes = new Vector()
+spikesout.record(spikesouttimes)
+
+// load_file("single1.ses")// display
+
+// comment out from here on
+// to get the theta neuron only 
+// without PRC determination
+// -----------------------------
+load_file("displayshape.hoc")
+load_file("makeIF.hoc") // current vs firing rate curve
+load_file("PRC.hoc") // determine phase reset curves
+// load_file("synproxy_cch.hoc") 
+// load_file("synproxy_sweeps.hoc")
+// load_file("fig5A.hoc") // uniform gm change, 3 synapse locations, PRC
+// load_file("fig5C.hoc") // gm change in a spot, 3 synapse locations, PRCs
+// load_file("surface.hoc") 

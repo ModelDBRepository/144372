@@ -1,0 +1,43 @@
+// control
+
+// cholinergic
+
+
+for b=0, 31 {
+		// sweep over parameters:
+		
+		/*
+		Iinject.amp = 0.08 + b*0.5/31 
+		print "current injection (nA): ", Iinject.amp
+		
+		gkbar_iM = b*0.0006/31 
+		print "g_iM (Scm-2): ", gkbar_iM
+		
+		e_pas = -62 + b*8/31
+		print "passive reversal (mV): ", e_pas 
+		*/
+		g_pas = 1.6e-5 + b*6e-6/31
+		print "passive conductance (Scm-2): ", g_pas
+		
+		
+		// sweep gm, keep f rate constant by adjusting Iinj
+		// f curve vs drive
+		makeif()
+		
+		targetf=10
+		dif=100	
+		for d=0, frequency.size-1 {
+			if (abs(frequency.x[d]-targetf)<dif) {
+							dif=abs(frequency.x[d]-targetf)	
+							Itarget=d*range/sweeps	
+								}	
+			}
+		
+		Iinject.amp=Itarget
+		
+		soma spikesout = new NetCon(&v(.5), nix, 0, 0, 0)// Output spike train
+		spikesouttimes = new Vector()
+		spikesout.record(spikesouttimes)
+		makeprc()
+}
+

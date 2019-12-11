@@ -1,0 +1,9 @@
+
+load_file("stdgui.hoc")
+load_file("nrngui.hoc")
+
+nrnmainmenu()
+
+create soma
+access soma
+

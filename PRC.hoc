@@ -1,0 +1,58 @@
+// determination of a 
+// phase-response curve of a neuron
+// K. M. Stiefel, CNL, Salk, 2004
+
+steps=64
+
+objref prc[100], prcplot, xvec
+nrprc=0
+
+prcplot = new Graph()
+prcplot.exec_menu("Keep Lines")
+
+xvec = new Vector()
+for k=1, steps { xvec.append(k/steps*2*PI) }
+
+proc makeprc() {
+	
+	prc[nrprc]= new Vector()
+	
+	spikesouttimes = new Vector()
+	spikesout.record(spikesouttimes)
+	
+	// 1. determine spikenr where stationarity is reached
+	// set simulation run length to that time
+	
+	tstop=2000 
+	input.start=2001
+	
+	init()
+	run()
+
+	n=2
+	while ((spikesouttimes.x[n]-spikesouttimes.x[n-1])-(spikesouttimes.x[n-1]-spikesouttimes.x[n-2])>(spikesouttimes.x[n]-spikesouttimes.x[n-1])/50) { n=n+1 }
+	stable=n
+	tstop=spikesouttimes.x[n+1]						
+	delay=spikesouttimes.x[stable-1]
+	isi=spikesouttimes.x[stable]-spikesouttimes.x[stable-1]
+	
+	print "ISIs stationary after spike ", n
+	print "at a frequency of ", 1/isi*1000, "Hz"
+
+	// determine PRC
+	// vary stimulus time from delay to delay+isi
+
+	for phase=0, steps {
+			spikesouttimes = new Vector()
+			spikesout.record(spikesouttimes)
+				
+			input.start=delay+isi*phase/steps
+
+			init()
+			run()
+			prc[nrprc].append(-(spikesouttimes.x[stable]-spikesouttimes.x[stable-1]-isi)/isi)
+			}
+
+	for j=0, nrprc { prc[j].plot(prcplot, xvec) }
+	nrprc=nrprc+1
+}

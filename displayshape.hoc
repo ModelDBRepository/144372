@@ -1,0 +1,10 @@
+objref shapi, allsections
+
+allsections = new SectionList()
+forall { allsections.append() }
+
+shapi = new Shape(allsections)
+for ff = 0, 3 {
+	shapi.point_mark(synapse[ff],3)
+	}
+	

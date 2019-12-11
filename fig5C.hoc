@@ -1,0 +1,106 @@
+// Fig 5C
+
+objref cchhere
+cchhere = new SectionList()
+
+// all sections where change should occur:
+
+access a2_12
+cchhere.append()
+access a2_122
+cchhere.append()
+access a2_1222
+cchhere.append()
+access a2_12222
+cchhere.append()
+access a2_12221
+cchhere.append()
+access a2_121122
+cchhere.append()
+access a2_121121
+cchhere.append()
+access a2_1211212
+cchhere.append()
+access a2_12112122
+cchhere.append()
+access a2_1211211
+cchhere.append()
+access a2_12112121
+cchhere.append()
+access a2_121
+cchhere.append()
+access a2_1211
+cchhere.append()
+access a2_1212
+cchhere.append()
+access a2_121211
+cchhere.append()
+access a2_121212
+cchhere.append()
+access a2_12122
+cchhere.append()
+
+access soma
+
+objref ii
+soma ii = new IClamp(.5)
+ii.del=0
+ii.amp=0.05
+ii.dur=2000
+
+//
+// low carbachol in one dendritic tree, high carbachol in the rest of the cell.
+//
+
+// high carbachol
+	forsec dendritic {
+		g_pas 	= 1.8e-5
+		e_pas 	= -58
+		gbar_km	=  2*0.05
+		gbar_kca = 3*0
+		}				
+forall {gbar_na=gbar_na*0.55}
+
+// low carbachol
+forsec cchhere{
+		g_pas 	= 1.8e-5
+		e_pas 	= -58
+		gbar_km	=  2*0.9
+		gbar_kca = 3*0.25
+		gbar_na = 20
+		}
+				
+ for synnr = 2, 3 {
+	for aa= 0, 3 {spikesin[aa].weight = 0}
+	if (synnr == 0) { spikesin[synnr].weight = 0.01 }  else { spikesin[synnr].weight = 0.05 }
+	makeprc()
+}
+
+/*
+//
+// low carbachol in one dendritic tree, none in the rest of the cell.
+//
+
+ii.amp=0.15
+
+// no carbachol
+forsec dendritic {
+		g_pas 	= 2e-5
+		e_pas 	= -60
+		gbar_km	=  2
+		gbar_kca = 3
+		}
+
+// low carbachol
+forsec cchhere {
+		g_pas 	= 1.8e-5
+		e_pas 	= -58
+		gbar_km	=  2*0.9
+		gbar_kca = 3*0.25
+		}
+		
+ for synnr = 2, 3 {
+	for aa= 0, 3 {spikesin[aa].weight = 0}
+	if (synnr == 0) { spikesin[synnr].weight = 0.01 }  else { spikesin[synnr].weight = 0.05 }
+	makeprc()
+}
